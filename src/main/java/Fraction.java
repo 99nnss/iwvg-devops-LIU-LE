@@ -1,12 +1,14 @@
 public class Fraction {
-    // ... (previously defined fields and constructors)
     private int numerator;
     private int denominator;
 
-    // Additional constructor for creating fractions from a single integer (whole number)
-    public Fraction(int wholeNumber) {
-        this.numerator = wholeNumber;
-        this.denominator = 1;
+    public Fraction(int numerator, int denominator) {
+        if (denominator == 0) {
+            throw new IllegalArgumentException("Denominator cannot be zero.");
+        }
+        this.numerator = numerator;
+        this.denominator = denominator;
+        simplify();
     }
 
     public Fraction() {
@@ -19,6 +21,7 @@ public class Fraction {
 
     public void setNumerator(int numerator) {
         this.numerator = numerator;
+        simplify();
     }
 
     public int getDenominator() {
@@ -26,11 +29,61 @@ public class Fraction {
     }
 
     public void setDenominator(int denominator) {
+        if (denominator == 0) {
+            throw new IllegalArgumentException("Denominator cannot be zero.");
+        }
         this.denominator = denominator;
+        simplify();
     }
 
     public double decimal() {
         return (double) numerator / denominator;
+    }
+
+    public boolean isProper() {
+        return numerator < denominator;
+    }
+
+    public boolean isImproper() {
+        return numerator > denominator;
+    }
+
+
+    public boolean isEquivalent(Fraction other) {
+        return (numerator * other.denominator) == (denominator * other.numerator);
+    }
+
+    public Fraction add(Fraction other) {
+        int commonDenominator = denominator * other.denominator;
+        int newNumerator = (numerator * other.denominator) + (other.numerator * denominator);
+        return new Fraction(newNumerator, commonDenominator);
+    }
+
+    public Fraction divide(Fraction other) {
+        int newNumerator = numerator * other.denominator;
+        int newDenominator = denominator * other.numerator;
+        return new Fraction(newNumerator, newDenominator);
+    }
+
+    public Fraction multiply(Fraction other) {
+        int newNumerator = numerator * other.numerator;
+        int newDenominator = denominator * other.denominator;
+        return new Fraction(newNumerator, newDenominator);
+    }
+
+    private int findGCD(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return Math.abs(a);
+    }
+
+    private void simplify() {
+        int gcd = findGCD(numerator, denominator);
+        numerator /= gcd;
+        denominator /= gcd;
     }
 
     @Override
@@ -40,42 +93,4 @@ public class Fraction {
                 ", denominator=" + denominator +
                 '}';
     }
-
-    // Method to check if the fraction is proper (numerator < denominator)
-    public boolean isProper() {
-        return numerator < denominator;
-    }
-
-    // Method to check if the fraction is improper (numerator >= denominator)
-    public boolean isImproper() {
-        return numerator >= denominator;
-    }
-
-    // Method to check if two fractions are equivalent
-    public boolean isEquivalent(Fraction other) {
-        return (numerator * other.denominator) == (denominator * other.numerator);
-    }
-
-    // Method to add two fractions and return a new Fraction object
-    public Fraction add(Fraction other) {
-        int commonDenominator = denominator * other.denominator;
-        int newNumerator = (numerator * other.denominator) + (other.numerator * denominator);
-        return new Fraction(newNumerator, commonDenominator);
-    }
-
-    // Method to multiply two fractions and return a new Fraction object
-    public Fraction multiply(Fraction other) {
-        int newNumerator = numerator * other.numerator;
-        int newDenominator = denominator * other.denominator;
-        return new Fraction(newNumerator, newDenominator);
-    }
-
-    // Method to divide two fractions and return a new Fraction object
-    public Fraction divide(Fraction other) {
-        int newNumerator = numerator * other.denominator;
-        int newDenominator = denominator * other.numerator;
-        return new Fraction(newNumerator, newDenominator);
-    }
-
-    // ... (previously defined methods, including getters, setters, decimal(), and toString())
 }
