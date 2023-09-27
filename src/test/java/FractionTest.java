@@ -1,35 +1,85 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FractionTest {
+    private Fraction fraction1;
+    private Fraction fraction2;
+    private Fraction equivalentFraction;
+    private Fraction nonEquivalentFraction;
 
-    @Test
-    public void testFractionCreation() {
-        Fraction fraction = new Fraction(3, 4);
-        assertEquals(3, fraction.getNumerator());
-        assertEquals(4, fraction.getDenominator());
+    @BeforeEach
+    public void setUp() {
+        fraction1 = new Fraction(1, 2);
+        fraction2 = new Fraction(3, 4);
+        equivalentFraction = new Fraction(2, 4);
+        nonEquivalentFraction = new Fraction(5, 6);
     }
 
     @Test
-    public void testFractionToString() {
-        Fraction fraction = new Fraction(1, 3);
-        assertEquals("Fraction{numerator=1, denominator=3}", fraction.toString());
+    public void testGetters() {
+        assertEquals(1, fraction1.getNumerator());
+        assertEquals(2, fraction1.getDenominator());
+        assertEquals(3, fraction2.getNumerator());
+        assertEquals(4, fraction2.getDenominator());
     }
 
     @Test
-    public void testFractionDecimal() {
-        Fraction fraction = new Fraction(1, 2);
-        assertEquals(0.5, fraction.decimal(), 0.001); // Use a delta for comparing doubles
+    public void testDecimal() {
+        assertEquals(0.5, fraction1.decimal(), 0.001);
+        assertEquals(0.75, fraction2.decimal(), 0.001);
     }
 
     @Test
-    public void testFractionSetters() {
-        Fraction fraction = new Fraction();
-        fraction.setNumerator(5);
-        fraction.setDenominator(7);
-        assertEquals(5, fraction.getNumerator());
-        assertEquals(7, fraction.getDenominator());
+    public void testIsProper() {
+        Fraction properFraction = new Fraction(3, 4);
+        assertTrue(properFraction.isProper());
+
+        Fraction improperFraction = new Fraction(5, 3);
+        assertFalse(improperFraction.isProper());
     }
 
-    // You can add more test cases for arithmetic operations and other methods as needed
+    @Test
+    public void testIsImproper() {
+        Fraction properFraction = new Fraction(3, 4);
+        assertFalse(properFraction.isImproper());
+
+        Fraction improperFraction = new Fraction(5, 3);
+        assertTrue(improperFraction.isImproper());
+    }
+
+    @Test
+    public void testIsEquivalent() {
+        assertTrue(fraction1.isEquivalent(equivalentFraction));
+        assertFalse(fraction1.isEquivalent(fraction2));
+        assertFalse(fraction1.isEquivalent(nonEquivalentFraction));
+    }
+
+    @Test
+    public void testAdd() {
+        Fraction result = fraction1.add(fraction2);
+        assertEquals(5, result.getNumerator());
+        assertEquals(4, result.getDenominator());
+    }
+
+    @Test
+    public void testDivide() {
+        Fraction result = fraction1.divide(fraction2);
+        assertEquals(2, result.getNumerator());
+        assertEquals(3, result.getDenominator());
+    }
+
+    @Test
+    public void testMultiply() {
+        Fraction result = fraction1.multiply(fraction2);
+        assertEquals(3, result.getNumerator());
+        assertEquals(8, result.getDenominator());
+    }
+
+    @Test
+    public void testToString() {
+        assertEquals("Fraction{numerator=1, denominator=2}", fraction1.toString());
+        assertEquals("Fraction{numerator=3, denominator=4}", fraction2.toString());
+    }
 }
