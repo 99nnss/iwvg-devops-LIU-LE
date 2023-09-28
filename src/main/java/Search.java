@@ -1,5 +1,6 @@
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
 public class Search {
@@ -27,6 +28,17 @@ public class Search {
                 .reduce(new Fraction(1, 1), Fraction::multiply);
 
         return multiplicationResult;
+    }
+
+    public Stream<String> findUserFamilyNameByAllNegativeSignFractionDistinct() {
+        return new UsersDatabase().findAll()
+                .filter(user -> user.getFractions()
+                        .stream()
+                        .anyMatch(fraction -> fraction.getNumerator() < 0 || fraction.getDenominator() < 0))
+                .map(User::getFamilyName)
+                .distinct();
+
+
     }
 
 
