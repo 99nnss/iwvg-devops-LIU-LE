@@ -49,4 +49,13 @@ class SearchesTest {
         Stream<String> result = search.findUserFamilyNameByAllNegativeSignFractionDistinct();
         assertEquals(expected.collect(Collectors.toList()), result.collect(Collectors.toList()));
     }
+
+    @Test
+    void testFindDecimalFractionByNegativeSignFraction() {
+        Stream<Double> expected = Stream.of(-0.2);
+        Stream<Double> actual = search.findDecimalFractionByNegativeSignFraction();
+        List<Double> expectedList = expected.collect(Collectors.toList());
+        List<Double> actualList = actual.collect(Collectors.toList());
+        assertEquals(expectedList, actualList);
+    }
 }
