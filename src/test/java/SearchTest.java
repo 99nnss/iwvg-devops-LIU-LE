@@ -26,6 +26,20 @@ class SearchesTest {
         assertEquals(expectedList, actualList);
     }
 
+    @Test
+    void testFindFractionMultiplicationByUserFamilyName() {
+        // Create a test Search instance
+        Search search = new Search();
 
+        // Define the expected result based on the provided UsersDatabase data
+        Fraction expected = new Fraction(0, 0); // Correct the expected denominator
+
+        // Test the method with the specified familyName "Torres"
+        Fraction result = search.findFractionMultiplicationByUserFamilyName("Torres");
+
+        // Assert that the result matches the expected value by comparing numerator and denominator
+        assertEquals(expected.getNumerator(), result.getNumerator());
+        assertEquals(expected.getDenominator(), result.getDenominator());
+    }
 
 }
