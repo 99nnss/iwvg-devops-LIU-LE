@@ -3,12 +3,9 @@ public class Fraction {
     private int denominator;
 
     public Fraction(int numerator, int denominator) {
-        if (denominator == 0) {
-            throw new IllegalArgumentException("Denominator cannot be zero.");
-        }
+
         this.numerator = numerator;
         this.denominator = denominator;
-        simplify();
     }
 
     public Fraction() {
@@ -21,7 +18,6 @@ public class Fraction {
 
     public void setNumerator(int numerator) {
         this.numerator = numerator;
-        simplify();
     }
 
     public int getDenominator() {
@@ -33,7 +29,6 @@ public class Fraction {
             throw new IllegalArgumentException("Denominator cannot be zero.");
         }
         this.denominator = denominator;
-        simplify();
     }
 
     public double decimal() {
@@ -71,20 +66,6 @@ public class Fraction {
         return new Fraction(newNumerator, newDenominator);
     }
 
-    private int findGCD(int a, int b) {
-        while (b != 0) {
-            int temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return Math.abs(a);
-    }
-
-    private void simplify() {
-        int gcd = findGCD(numerator, denominator);
-        numerator /= gcd;
-        denominator /= gcd;
-    }
 
     @Override
     public String toString() {
