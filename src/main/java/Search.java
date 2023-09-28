@@ -13,4 +13,21 @@ public class Search {
                 .distinct();
     }
 
+    public Fraction findFractionMultiplicationByUserFamilyName(String familyName) {
+        List<Fraction> fractions = new UsersDatabase().findAll()
+                .filter(user -> user.getFamilyName().equals(familyName))
+                .flatMap(user -> user.getFractions().stream())
+                .collect(Collectors.toList());
+
+        if (fractions.isEmpty()) {
+            throw new IllegalArgumentException("No user found with the given family name.");
+        }
+
+        Fraction multiplicationResult = fractions.stream()
+                .reduce(new Fraction(1, 1), Fraction::multiply);
+
+        return multiplicationResult;
+    }
+
+
 }
